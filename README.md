@@ -55,30 +55,42 @@
 
 ## 螢幕截圖
 
-![player-screenshot]
+![評分][rating]
+![評分2][rating2]
+![通知][notice]
+![聊天紀錄][chat_history]
+![聯繫][connect]
+
 
 <p align="right">(<a href="#readme-top">回到頂部</a>)</p>
 
 <!-- GETTING STARTED -->
 
 ### 這是什麼?
-這是一個為社群而生的檢舉系統，我相信大家都曾為了那一些"不懂事"的人造成的事極其困擾，卻又因無一個方便的檢舉管道而陷入憤怒之中。
-而我相信，這個項目可以解決你的困擾
-我們設計了兩種檢舉方式，其中最為重要的是私訊對話!
-這個功能除了可以最大化保障你的隱私外，對話結束後留存的聊天紀錄也為管理團隊提供了一定程度上的方便!
-而一般的檢舉功能也很好用，你只需按下按鈕，並填入事發時的資料後等待管理處理即可
+這是一個為社群而生的檢舉系統，我相信大家都曾為了那一些"不懂事"的人造成的事極其困擾，卻又因無一個方便的檢舉管道而陷入憤怒之中。  
+
+而我相信，這個項目可以解決你的困擾  
+
+我們設計了兩種檢舉方式，其中最為重要的是私訊對話!  
+
+這個功能除了可以最大化保障你的隱私外，對話結束後留存的聊天紀錄也為管理團隊提供了一定程度上的方便!  
+
+而一般的檢舉功能也很好用，你只需按下按鈕，並填入事發時的資料後等待管理處理即可  
+
 現在，你應該已經了解這個項目了!
 
 ### 如何架設?
 
-非常簡單，你只需要找到.env的檔案，將你的Discord Bot Token 填入進去即可。
+非常簡單，首先你需要找到.env的檔案，把你的Discord Bot Token 填入進去。  
+之後啟動main.py即可開始使用了!
 
 > 範例：TOKEN="MTAxMdaskdaDKEE0MDA2Njg3OQ.GMF67E.-ReW1bySZ9PL5hQRfVZHDjdssad"
 
 
 ## 使用教學
 
-在成功架設起機器人並邀請進伺服器後，你可以直接使用 `/report message`，並將你獨一無二的檢舉訊息填寫進表單中!
+在成功架設起機器人並邀請進伺服器後，你可以直接使用 `/report message`，並將你獨一無二的檢舉訊息填寫進表單中!  
+
 或者，你想使用我們已經設計好的預設訊息也可以!
 
 另一個指令為 `/report setup`，是為了有人私訊機器人尋求幫助時，設定通知頻道而存在的。
@@ -95,23 +107,23 @@
 
 <!-- SHIELDS -->
 
-[contributors-shield]: https://img.shields.io/github/contributors/Nat1anWasTaken/Lava.svg?style=for-the-badge
+[contributors-shield]: https://img.shields.io/github/contributors/Mantou-9487/Report.svg?style=for-the-badge
 
 [contributors-url]: https://github.com/Mantou-9487/Reportgraphs/contributors
 
-[forks-shield]: https://img.shields.io/github/forks/Nat1anWasTaken/Lava.svg?style=for-the-badge
+[forks-shield]: https://img.shields.io/github/forks/Mantou-9487/Report.svg?style=for-the-badge
 
 [forks-url]: https://github.com/Mantou-9487/Reportnetwork/members
 
-[stars-shield]: https://img.shields.io/github/stars/Nat1anWasTaken/Lava.svg?style=for-the-badge
+[stars-shield]: https://img.shields.io/github/stars/Mantou-9487/Report.svg?style=for-the-badge
 
 [stars-url]: https://github.com/Mantou-9487/Reportstargazers
 
-[issues-shield]: https://img.shields.io/github/issues/Nat1anWasTaken/Lava.svg?style=for-the-badge
+[issues-shield]: https://img.shields.io/github/issues/Mantou-9487/Report.svg?style=for-the-badge
 
 [issues-url]: https://github.com/Mantou-9487/Reportissues
 
-[license-shield]: https://img.shields.io/github/license/Nat1anWasTaken/Lava.svg?style=for-the-badge
+[license-shield]: https://img.shields.io/github/license/Mantou-9487/Report.svg?style=for-the-badge
 
 [license-url]: https://github.com/Mantou-9487/Report/blob/master/LICENSE.txt
 
@@ -125,4 +137,8 @@
 
 <!-- IMAGES -->
 
-[player-screenshot]: img/player.png
+[rating]: img/rating.png
+[rating2]: img/rating2.png
+[notice]: img/notice.png
+[connect]: img/connect.png
+[chat_history]: img/chat_history.png
