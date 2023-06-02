@@ -27,9 +27,9 @@
     <a href="#關於專案"><strong>閱讀更多 »</strong></a>
     <br />
     ·
-    <a href="https://github.com/Mantou-9487/Reportissues">回報問題</a>
+    <a href="https://github.com/Mantou-9487/Report/issues">回報問題</a>
     ·
-    <a href="https://github.com/Mantou-9487/Reportissues">請求功能</a>
+    <a href="https://github.com/Mantou-9487/Report/issues">請求功能</a>
   </p>
 </div>
 
