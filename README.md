@@ -16,7 +16,7 @@
 <br />
 <div align="center">
   <a href="https://github.com/Mantou-9487/Report">
-    <img src="img/logo.png" alt="Logo" width="80" height="80">
+    <img src="img/logo2.png" alt="Logo" width="80" height="80">
   </a>
 
 <h3 align="center">Report</h3>
