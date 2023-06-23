@@ -16,6 +16,7 @@ class Bot(InteractionBot):
     def __init__(self,  *args, **kwargs):
         self.author = None
         self.admin = None
+        self.guild = None
         """
         :param conversation: Conversation instance
         :param args: args
@@ -93,16 +94,17 @@ class Bot(InteractionBot):
                 await interaction.response.send_message(embed=embed,components=components)
             
             elif interaction.data.custom_id == f"confirm_open_dialogue_{interaction.author.id}":
+                options = []
+                for i in self.guilds:
+                    options.append(SelectOption(label=i.name, value=i.id))
+                
                 self.author = interaction.author
-                channel = self.get_channel(1121725584414888059) #之後改掉
-                embed = Embed(title="正在聯繫中....",colour=Colour.light_gray())
-                await interaction.response.edit_message(embed=embed, view=None)
-
-                notification_embed = Embed(title="叮咚!",description=f"來自 {interaction.user.name} 的對話請求\n可處理的團隊人員請點底下按鈕以接手請求。",colour=Colour.random())
+                warning_embed = Embed(title="⚠️ | 請使用下方選單選擇您需要檢舉的人位於哪個伺服器",colour=Colour.yellow())
                 components = [
-                    Button(label="接手",custom_id=f"take_over_dialogue")
+                    StringSelect(placeholder="選擇一個伺服器",custom_id="select_server",max_values=1,min_values=1,options=options)
                 ]
-                await channel.send(embed=notification_embed,components=components)
+                await interaction.response.edit_message(embed=warning_embed, view=None, components=components)
+
 
             elif interaction.data.custom_id == f"take_over_dialogue":
                 self.admin = interaction.author
@@ -132,13 +134,7 @@ class Bot(InteractionBot):
                 await interaction.channel.edit(name=f"closed-dialog-{self.author.id}")
                 close_embed = Embed(title=f"團隊已關閉對話! 祝您有個美好的一天🎉\n如果可以，可以考慮花點時間幫這次對話評分喔!",colour=Colour.red())
 
-                options = [
-                    SelectOption(label="⭐",description="1星",value="⭐"),
-                    SelectOption(label="⭐⭐",description="2星",value="⭐⭐"),
-                    SelectOption(label="⭐⭐⭐",description="3星",value="⭐⭐⭐"),
-                    SelectOption(label="⭐⭐⭐⭐",description="4星",value="⭐⭐⭐⭐"),
-                    SelectOption(label="⭐⭐⭐⭐⭐",description="5星",value="⭐⭐⭐⭐⭐"),
-                ]
+                
                 components = [
                     StringSelect(placeholder="⭐為這次的對話評分",custom_id="star_rate",max_values=1,min_values=1,options=options)
                 ]
@@ -172,10 +168,29 @@ class Bot(InteractionBot):
             
             elif interaction.data.custom_id == f"star_rate":
                 value = interaction.data.values[0]
+                with open(f"./database/guild/{self.guild.id}/setting.json", "r", encoding="utf-8") as f:
+                        data = json.load(f)
+                channel = self.guild.get_channel(int(data['notification_channel']))
                 await interaction.response.edit_message(f"感謝你的評分🎉🎉🎉 你評了: {value}",view=None, embed=None)
-                channel = self.get_channel(1121725584414888059) #之後改掉
                 embed = Embed(title=f"{self.author.name} 的對話評分",description=f"星數:\n{value}",colour=Colour.yellow())
                 await channel.send(embed=embed)
+
+            elif interaction.data.custom_id == f"select_server":
+                value = interaction.data.values[0]
+                self.guild = self.get_guild(value)
+                
+                loading_embed = Embed(title=f"正在聯繫 {self.guild.name} 中....",colour=Colour.light_gray())
+                await interaction.response.edit_message(embed=loading_embed, view=None, components=None)
+
+                with open(f"./database/guild/{value}/setting.json", "r", encoding="utf-8") as f:
+                        data = json.load(f)
+                channel = self.guild.get_channel(int(data['notification_channel']))
+                notification_embed = Embed(title="叮咚!",description=f"來自 {interaction.user.name} 的對話請求\n可處理的團隊人員請點底下按鈕以接手請求。",colour=Colour.random())
+                components = [
+                    Button(label="接手",custom_id=f"take_over_dialogue")
+                ]
+                await channel.send(embed=notification_embed, components=components)
+
         except AttributeError:
             pass
 
