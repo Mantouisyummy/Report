@@ -10,7 +10,7 @@ class ReportView(View):
     
     @disnake.ui.button(label="我要檢舉",custom_id="report",style=ButtonStyle.gray)
     async def reportbutton(self, button: Button, interaction: MessageInteraction):
-        await interaction.response.send_modal(modal=ReportModal())
+        pass
 
 class ReportModal(Modal):
     def __init__(self) -> None:

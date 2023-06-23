@@ -10,6 +10,7 @@ from disnake.utils import get
 from disnake.ext.commands import InteractionBot
 from disnake.ui import Button, StringSelect
 from datetime import timezone, timedelta
+from core.classes import ReportModal
 
 class Bot(InteractionBot):
     def __init__(self,  *args, **kwargs):
@@ -55,12 +56,7 @@ class Bot(InteractionBot):
                             webhook = Webhook.from_url(webhook.url, session=session)
                             await webhook.send(content=message.content, username=self.author.name, avatar_url=self.author.avatar.url)
             else:
-
-                if os.path.isfile(f"./database/guild/{message.guild.id}/setting.json"):
-                    with open(f"./database/guild/{message.guild.id}/setting.json", "r", encoding="utf-8") as f:
-                        data = json.load(f)
                     try:
-                        notification_channel = data['notification_channel']
                         embed = Embed(title="請確認您要與管理團隊對話的請求",description=
                                     """如果您想要舉報成員，請確保提前準備好盡可能多的證據。
                                             
@@ -85,6 +81,10 @@ class Bot(InteractionBot):
                     pass
 
     async def on_message_interaction(self, interaction:MessageInteraction):
+
+        if interaction.data.custom_id == f"report":
+            await interaction.response.send_modal(modal=ReportModal())
+
         if interaction.data.custom_id == f"open_dialogue_{interaction.author.id}":
             embed = Embed(title="確定要聯繫管理團隊嗎?",colour=Colour.red())
             components = [
@@ -94,7 +94,7 @@ class Bot(InteractionBot):
         
         elif interaction.data.custom_id == f"confirm_open_dialogue_{interaction.author.id}":
             self.author = interaction.author
-            channel = self.get_channel(1113431995092058222) #之後改掉
+            channel = self.get_channel(1121725584414888059) #之後改掉
             embed = Embed(title="正在聯繫中....",colour=Colour.light_gray())
             await interaction.response.edit_message(embed=embed, view=None)
 
@@ -173,7 +173,8 @@ class Bot(InteractionBot):
         elif interaction.data.custom_id == f"star_rate":
             value = interaction.data.values[0]
             await interaction.response.edit_message(f"感謝你的評分🎉🎉🎉 你評了: {value}",view=None, embed=None)
-            channel = self.get_channel(1113431995092058222) #之後改掉
+            channel = self.get_channel(1121725584414888059) #之後改掉
             embed = Embed(title=f"{self.author.name} 的對話評分",description=f"星數:\n{value}",colour=Colour.yellow())
             await channel.send(embed=embed)
+
 
