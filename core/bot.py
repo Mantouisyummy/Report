@@ -42,7 +42,7 @@ class Bot(InteractionBot):
             if self.admin is not None:
                 name = f"dialog-{message.author.id}"
                 channel = get(self.admin.guild.text_channels, name=str(name))
-                if channel:
+                if message.channel == channel:
                     webhooks = await channel.webhooks()
                     for webhook in webhooks:
                         if "客服用" == webhook.name:
@@ -73,7 +73,7 @@ class Bot(InteractionBot):
             if self.admin == message.author:
                 name = f"dialog-{self.author.id}"
                 channel = get(self.admin.guild.text_channels, name=str(name))
-                if channel:
+                if message.channel == channel:
                     message = f"團隊人員 | {self.admin.name}: {message.content}"
                     user = self.get_user(self.author.id)
                     await user.send(content=message)
