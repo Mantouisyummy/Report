@@ -82,9 +82,30 @@ class Bot(InteractionBot):
                     pass
 
     async def on_message_interaction(self, interaction:MessageInteraction):
-
         if interaction.data.custom_id == f"report":
             await interaction.response.send_modal(modal=ReportModal())
+        
+        if interaction.data.custom_id == f"select":
+            value = interaction.data.values[0]
+            self.guild = self.get_guild(int(value))
+                
+            loading_embed = Embed(title=f"正在聯繫 {self.guild.name} 中....",colour=Colour.light_gray())
+            await interaction.response.edit_message(embed=loading_embed, components=None)
+
+            try:
+                with open(f"./database/guild/{value}/setting.json", "r", encoding="utf-8") as f:
+                        data = json.load(f)
+                channel = self.guild.get_channel(int(data['notification_channel']))
+                notification_embed = Embed(title="叮咚!",description=f"來自 {interaction.user.name} 的對話請求\n可處理的團隊人員請點底下按鈕以接手請求。",colour=Colour.random())
+                components = [
+                    Button(label="接手",custom_id=f"take_over_dialogue")
+                ]
+                await channel.send(embed=notification_embed, components=components)
+            
+            except FileNotFoundError:
+                error_embed = Embed(title=":x: | 此群組並未設置此功能",description="",colour=Colour.red())
+                await interaction.response.edit_message(embed=error_embed, components=None)
+
         try:
             if interaction.data.custom_id == f"open_dialogue_{interaction.author.id}":
                 embed = Embed(title="確定要聯繫管理團隊嗎?",colour=Colour.red())
@@ -101,9 +122,9 @@ class Bot(InteractionBot):
                 self.author = interaction.author
                 warning_embed = Embed(title="⚠️ | 請使用下方選單選擇您需要檢舉的人位於哪個伺服器",colour=Colour.yellow())
                 components = [
-                    StringSelect(placeholder="選擇一個伺服器",custom_id="select_server",max_values=1,min_values=1,options=options)
+                    StringSelect(placeholder="選擇一個伺服器",custom_id="select",max_values=1,min_values=1,options=options)
                 ]
-                await interaction.response.edit_message(embed=warning_embed, view=None, components=components)
+                await interaction.response.edit_message(embed=warning_embed, components=components)
 
 
             elif interaction.data.custom_id == f"take_over_dialogue":
@@ -175,23 +196,7 @@ class Bot(InteractionBot):
                 embed = Embed(title=f"{self.author.name} 的對話評分",description=f"星數:\n{value}",colour=Colour.yellow())
                 await channel.send(embed=embed)
 
-            elif interaction.data.custom_id == f"select_server":
-                value = interaction.data.values[0]
-                self.guild = self.get_guild(value)
-                
-                loading_embed = Embed(title=f"正在聯繫 {self.guild.name} 中....",colour=Colour.light_gray())
-                await interaction.response.edit_message(embed=loading_embed, view=None, components=None)
-
-                with open(f"./database/guild/{value}/setting.json", "r", encoding="utf-8") as f:
-                        data = json.load(f)
-                channel = self.guild.get_channel(int(data['notification_channel']))
-                notification_embed = Embed(title="叮咚!",description=f"來自 {interaction.user.name} 的對話請求\n可處理的團隊人員請點底下按鈕以接手請求。",colour=Colour.random())
-                components = [
-                    Button(label="接手",custom_id=f"take_over_dialogue")
-                ]
-                await channel.send(embed=notification_embed, components=components)
-
-        except AttributeError:
+        except AttributeError as e:
             pass
 
 
